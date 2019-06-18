@@ -7,7 +7,7 @@ module.exports = class RedisWritableStream extends Writable {
 	constructor(params) {
 		super(params);
 		this._client = params.client;
-		this._listName = params.listName;
+		this._queueName = params.queueName;
 
 	}
 
@@ -17,7 +17,7 @@ module.exports = class RedisWritableStream extends Writable {
 			data._id = uuidv1();
 		}
 
-		this._client.rpush(this._listName,JSON.stringify(data),()=>{
+		this._client.rpush(this._queueName,JSON.stringify(data),()=>{
 			callback();
 		});
 	}

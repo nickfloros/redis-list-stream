@@ -6,7 +6,7 @@ const {RedisWritableStream} = require('../index');
 console.log(RedisWritableStream);
 const stream = new RedisWritableStream({
 	client : redisClient,
-	listName : 'ns'
+	queueName : 'ns'
 });
 
 stream.write(JSON.stringify({test:1, date : new Date()}));

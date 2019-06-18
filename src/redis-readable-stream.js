@@ -5,7 +5,7 @@ const uuidv1 = require('uuid/v1');
 module.exports = class RedisReadableStream extends Readable {
 	constructor(params) {
 		super(params);
-		this._listName = params.listName;
+		this._queueName = params.queueName;
 		this._client = params.client;
 	}
 

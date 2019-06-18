@@ -6,7 +6,7 @@ const {RedisReadableStream} = require('../index');
 
 const stream = new RedisReadableStream({
 	client : redisClient,
-	listName : 'ns'
+	queueName : 'ns'
 });
 
 stream.on('data',(data)=>{
