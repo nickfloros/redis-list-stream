@@ -10,7 +10,7 @@ module.exports = class RedisReadableStream extends Readable {
 	}
 
 	_read(size) {
-		this._client.brpop(this._listName, 0, (err, entry) => {
+		this._client.brpop(this._queueName, 0, (err, entry) => {
 			const data = JSON.parse(entry[1]);
 			if (!data._id) {
 				data._id = uuidv1();

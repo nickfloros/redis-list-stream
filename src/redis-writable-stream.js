@@ -13,6 +13,7 @@ module.exports = class RedisWritableStream extends Writable {
 
 	_write(chunk, encoding, callback) {
 		const data = JSON.parse(chunk.toString());
+
 		if (!data._id) {
 			data._id = uuidv1();
 		}
