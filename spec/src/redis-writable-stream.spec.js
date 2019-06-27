@@ -45,4 +45,16 @@ describe('redis-writable-stream', () => {
 
 	});
 
+	it('should create a new stream with default queue name',()=>{
+		const stream = new RedisWritableStream({
+			client: redisClient
+		});
+		expect(stream.queueName).toBe('rfs');
+	});
+
+	it('should create an interface ',()=>{
+		const mockClient = RedisWritableStream.createInterface({client:'x'});
+
+		expect(mockClient.client).toBe('x');		
+	});
 });

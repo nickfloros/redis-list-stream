@@ -1,13 +1,15 @@
 
-
+'use strict';
 const {Writable} = require('stream');
 const uuidv1 = require('uuid/v1');
+
+const redisClient = require('./redis-connection');
 
 module.exports = class RedisWritableStream extends Writable {
 	constructor(params) {
 		super(params);
 		this._client = params.client;
-		this._queueName = params.queueName;
+		this._queueName = params.queueName || redisClient.queueName;
 
 	}
 
@@ -23,4 +25,19 @@ module.exports = class RedisWritableStream extends Writable {
 		});
 	}
 
+	get queueName() {
+		return this._queueName;
+	}
+
+	get client() {
+		return this._client;
+	}
+	
+	static createInterface(params) {
+		const client = redisClient.create(params);
+		return new RedisWritableStream({
+			queueName : params.queueName,
+			client: client
+		});
+	}
 }

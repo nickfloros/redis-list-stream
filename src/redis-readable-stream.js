@@ -1,11 +1,15 @@
-
-const {Readable} = require('stream');
+'use strict';
+const {
+	Readable
+} = require('stream');
 const uuidv1 = require('uuid/v1');
+
+const redisClient = require('./redis-connection');
 
 module.exports = class RedisReadableStream extends Readable {
 	constructor(params) {
 		super(params);
-		this._queueName = params.queueName;
+		this._queueName = params.queueName || redisClient.queueName;
 		this._client = params.client;
 	}
 
@@ -16,6 +20,22 @@ module.exports = class RedisReadableStream extends Readable {
 				data._id = uuidv1();
 			}
 			this.push(JSON.stringify(data));
+		});
+	}
+
+	get queueName() {
+		return this._queueName;
+	}
+
+	get client() {
+		return this._client;
+	}
+	
+	static createInterface(params) {
+		const client = redisClient.create(params);
+		return new RedisReadableStream({
+			queueName: params.queueName,
+			client: client
 		});
 	}
 }

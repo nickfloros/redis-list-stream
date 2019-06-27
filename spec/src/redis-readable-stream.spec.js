@@ -46,4 +46,16 @@ describe('redis-readable-stream', () => {
 		});
 	});
 
+	it('should create a new stream with default queue name',()=>{
+		const stream = new RedisReadableStream({
+			client: redisClient
+		});
+		expect(stream.queueName).toBe('rfs');
+	});
+
+	it('should create an interface ',()=>{
+		const mockClient = RedisReadableStream.createInterface({client:'x'});
+
+		expect(mockClient.client).toBe('x');		
+	});
 });

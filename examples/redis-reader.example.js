@@ -1,12 +1,12 @@
 const config = require('dotenv').config({path:__dirname+'/.env'});
 
-const redisClient = require('./redis-client');
 
 const {RedisReadableStream} = require('../index');
+const redisClient = require('../src/redis-connection');
 
 const stream = new RedisReadableStream({
-	client : redisClient,
-	queueName : 'ns'
+		client : redisClient.create(),
+		queueName : 'ns'
 });
 
 stream.on('data',(data)=>{
