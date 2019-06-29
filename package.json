@@ -1,6 +1,6 @@
 {
   "name": "redis-list-stream",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "a simple redis list stream",
   "main": "./index.js",
   "scripts": {
@@ -11,7 +11,14 @@
     "type": "git",
     "url": "git+https://github.com/nickfloros/redis-list-stream.git"
   },
-  "keywords": ["nodejs","redis","javascript","stream","message-queue","mq"],
+  "keywords": [
+    "nodejs",
+    "redis",
+    "javascript",
+    "stream",
+    "message-queue",
+    "mq"
+  ],
   "author": "Nick Floros",
   "license": "MIT",
   "bugs": {
