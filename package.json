@@ -11,9 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/nickfloros/redis-list-stream.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["nodejs","redis","javascript","stream","message-queue","mq"],
+  "author": "Nick Floros",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nickfloros/redis-list-stream//issues"
   },
