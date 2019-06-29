@@ -30,7 +30,7 @@ defaultFilters:
           - /feature\/.*/
           - master
 
-restoreCacheConfig:
+restoreCacheConfig: &restoreCacheConfig
   keys:
     - v1-dependencies-{{ checksum "package.json" }}
     # fallback to usng latest cache just in case ..
