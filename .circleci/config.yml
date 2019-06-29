@@ -17,8 +17,7 @@ releaseFilters: &releaseFilters
       tags: 
         only: /^v.*/
       branches:
-        ignore:
-          -/.*/
+        ignore: /.*/
 
 # default filters
 defaultFilters:
@@ -37,6 +36,11 @@ restoreCacheConfig:
     # fallback to usng latest cache just in case ..
     - v1-dependencies-
 
+saveCacheConfig:
+  paths:
+    - node_modules
+  key: v1-dependencies-{{ checksum "package.json" }}
+
 jobs:
   test:
     <<: *defaults
@@ -44,9 +48,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+        <<: *restoreCacheConfig
 
       - run: npm install
       - run:
@@ -54,9 +56,7 @@ jobs:
           command: npm run test-publish-coverage
 
       - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+        <<: *saveCacheConfig
 
       - persist_to_workspace:
           root: ~/repo
@@ -79,13 +79,12 @@ workflows:
   test-deploy:
     jobs:
       - test
+        filters:
+          tags:
+            only: /^v.*/
       - deploy:
+          <<: *releaseFilters
           requires:
             - test
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
 
 
