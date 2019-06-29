@@ -4,10 +4,37 @@
 #
 version: 2
 
-defaults: &defaults
+# global configuration
+defaultConfig: &defaultConfig
   working_directory: ~/repo
   docker:
     - image: circleci/node:10
+
+
+# release filters
+releaseFilters: &releaseFilters
+  filters:
+      tags: 
+        only: /^v.*/
+      branches:
+        ignore:
+          -/.*/
+# default filters
+defaultFilters:
+  filters:
+    tags:
+      ignore:
+        -/.*/
+      branches:
+        only:
+          - /feature\/.*/
+          - master
+
+restoreCacheConfig:
+  keys:
+    - v1-dependencies-{{ checksum "package.json" }}
+    # fallback to usng latest cache just in case ..
+    - v1-dependencies-
 
 jobs:
   test:
