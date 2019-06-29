@@ -32,9 +32,9 @@ defaultFilters: &defaultFilters
 
 restoreCacheConfig: &restoreCacheConfig
   keys:
-    - v1-dependencies-{{ checksum "package.json" }}
+  - v1-dependencies-{{ checksum "package.json" }}
     # fallback to usng latest cache just in case ..
-    - v1-dependencies-
+  - v1-dependencies-
 
 saveCacheConfig: &saveCacheConfig
   paths:
@@ -48,9 +48,11 @@ jobs:
       - checkout
 
       - restore_cache:
-        <<: *restoreCacheConfig
+          <<: *restoreCacheConfig
+
 
       - run: npm install
+
       - run:
           name: Run tests
           command: npm run test-publish-coverage
