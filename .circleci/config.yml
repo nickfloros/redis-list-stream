@@ -83,6 +83,6 @@ workflows:
             tags:
               only: /^v.*/
       - deploy:
-      	  <<: *releaseFilters
+          <<: *releaseFilters
           requires:
             - test
