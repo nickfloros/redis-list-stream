@@ -5,7 +5,7 @@
 version: 2
 
 # global configuration
-defaultConfig: &defaultConfig
+defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/node:10
@@ -19,6 +19,7 @@ releaseFilters: &releaseFilters
       branches:
         ignore:
           -/.*/
+
 # default filters
 defaultFilters:
   filters:
@@ -38,7 +39,7 @@ restoreCacheConfig:
 
 jobs:
   test:
-    <<: *defaults  
+    <<: *defaults
     steps:
       - checkout
 
