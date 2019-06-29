@@ -79,12 +79,14 @@ workflows:
   test-deploy:
     jobs:
       - test:
-        filters:
-          tags:
-            only: /^v.*/
+          filters:
+            tags:
+              only: /^v.*/
       - deploy:
-          <<: *releaseFilters
           requires:
             - test
-
-
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
