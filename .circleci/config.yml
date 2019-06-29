@@ -20,7 +20,7 @@ releaseFilters: &releaseFilters
         ignore: /.*/
 
 # default filters
-defaultFilters:
+defaultFilters: &defaultFilters
   filters:
     tags:
       ignore:
@@ -76,10 +76,6 @@ jobs:
 
 workflows:
   version: 2
-  test:
-    jobs:
-      - test
-        <<: *defaultFilters
   test-deploy:
     jobs:
       - test
