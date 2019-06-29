@@ -36,7 +36,7 @@ restoreCacheConfig: &restoreCacheConfig
     # fallback to usng latest cache just in case ..
     - v1-dependencies-
 
-saveCacheConfig:
+saveCacheConfig: &saveCacheConfig
   paths:
     - node_modules
   key: v1-dependencies-{{ checksum "package.json" }}
