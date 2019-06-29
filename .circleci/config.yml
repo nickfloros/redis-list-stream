@@ -39,7 +39,7 @@ restoreCacheConfig: &restoreCacheConfig
 saveCacheConfig: &saveCacheConfig
   paths:
     - node_modules
-  key: v1-dependencies-{{ checksum "package.json" }}
+  keys: v1-dependencies-{{ checksum "package.json" }}
 
 jobs:
   test:
