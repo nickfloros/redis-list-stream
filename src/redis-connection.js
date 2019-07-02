@@ -4,7 +4,7 @@ const redis = require('redis');
 module.exports = class RedisConnection {
 
 	/**
-	 * create a redis client connection
+	 * simple helper function to create a redis connection
 	 * @param  {object} params
 	 * @param {object} params.redis contain redis related parameters @see <a href="https://github.com/NodeRedis/node_redis#options-object-properties">redis docs</a> 
 	 * {RedsClient} param.client client to use for the connection 

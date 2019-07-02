@@ -7,6 +7,13 @@ const uuidv1 = require('uuid/v1');
 const redisClient = require('./redis-connection');
 
 module.exports = class RedisReadableStream extends Readable {
+	/**
+	 * default constructor of RedisReadbleStream
+	 * @param  {object} params 
+	 * @oaram {string} params.queueName name of the queue where the message will be read.
+	 * @params {object} params.client instance of redis client. this connction can't be shared with other transactions as we are ising block reads
+	 * @return {[type]}        [description]
+	 */
 	constructor(params) {
 		super(params);
 		this._queueName = params.queueName || redisClient.queueName;
@@ -31,6 +38,13 @@ module.exports = class RedisReadableStream extends Readable {
 		return this._client;
 	}
 	
+	/**
+	 * helper function to create a RedisReadableStream
+	 * @param  {object} params
+	 * @param {string} params.queueName redis queue (list) to read messages from
+	 * @param {object} params.redis set of standard redis parameters to create a client connection.
+	 * @return {RedisReadbaleStream}        
+	 */
 	static createInterface(params) {
 		const client = redisClient.create(params);
 		return new RedisReadableStream({
