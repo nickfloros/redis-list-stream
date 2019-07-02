@@ -39,7 +39,7 @@ Create an instrance of RedisWritableSteeam
 ### `options` object properties https://github.com/NodeRedis/node_redis#options-object-properties
 | Property  | Description |
 | ----------|-------------|
-|redis      | contains normal redis parameters for creating a connection, for more see [redis]((https://github.com/NodeRedis/node_redis#options-object-properties) documentation |
+|redis      | contains normal redis parameters for creating a connection, for more see [redis](https://github.com/NodeRedis/node_redis#options-object-properties) documentation |
 |queueName  | name of the queue / list created in Redis. A new list will be created if it does not exists otherwise will use the existing one |
 |client     | a redis connection to be used by this class. Ideally this connection shouldn't be shared with other redis transactions |
 
