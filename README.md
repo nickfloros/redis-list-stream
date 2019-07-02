@@ -34,11 +34,11 @@ stream.on('finish',()=>{
 
 The parameters are 
 
-| Parameter | Description |
+ Parameter | Description 
 ---------------------------
-| redis  | contains normal redis parameters for creating a connection for more see redis documentation|
-| queueName | name of the queue / list created in Redis. A new list will be created if it does not exists otherwise will use the existing one |
-| client | a redis connection to be used by this class. Ideally this connection shouldn't be shared with other redis transactions |
+ redis  | contains normal redis parameters for creating a connection for more see redis documentation 
+ queueName | name of the queue / list created in Redis. A new list will be created if it does not exists otherwise will use the existing one 
+ client | a redis connection to be used by this class. Ideally this connection shouldn't be shared with other redis transactions 
 
 At the moment the write implementation is rather inneficient as it does not 'batch' the writes, but that is for something for the very near future.
 
