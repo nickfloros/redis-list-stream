@@ -34,7 +34,7 @@ stream.on('finish',()=>{
 
 The parameters are 
 
- Parameter | Description 
+ Property name | Description 
 -----------|-------------
  redis  | contains normal redis parameters for creating a connection for more see redis documentation 
  queueName | name of the queue / list created in Redis. A new list will be created if it does not exists otherwise will use the existing one 
