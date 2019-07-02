@@ -69,7 +69,7 @@ The library will pop one message at a time from from the queue and generate the 
 ### RedisWritableStream.createInterface()
 Create an instrance of RedisWritableSteeam
 
-* RedisReadableStream.createInterface(options)
+* RedisWritableStream.createInterface(options)
 
 ### `options` object properties
 | Property  | Description |
