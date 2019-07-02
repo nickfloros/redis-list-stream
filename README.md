@@ -64,7 +64,34 @@ stream.on('data',(data)=>{
 });
 
 ```
-The library will pop one message at a time from from the queue and generate the ```data``` event.
+The library will pop one message at a time from from the queue and generate the ```data``` event. Another way to is implement a ```Tanform``` stream responsible of implementing the actions a process has to do when receives an message . The example below does exactly the same as the previous example. 
+
+```javascript
+const {RedisReadableStream} = require('redis-list-stream');
+const {Transform} = require('stream');
+
+class TestTranform extends Transform {
+	constructor(params) {
+		super(params);
+	}
+	_transform(chunk,encoding, cb) {
+		console.log(chunk.toString());
+		cb();
+	}
+}
+const tStream = new TestTranform();
+
+stream = RedisReadableStream.createInterface({
+	redis: {
+		host: process.env.REDIS_HOST || 'localhost',
+		port: process.env.REDIS_PORT || 8120
+	},
+	queueName : 'myQueue'
+});
+
+stream.pipe(tStream);
+
+```
 
 ### RedisWritableStream.createInterface()
 Create an instrance of RedisWritableSteeam
