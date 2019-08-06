@@ -32,7 +32,7 @@ stream.on('finish',()=>{
 
 ````
 ### RedisWritableStream.createInterface()
-Create an instrance of RedisWritableSteeam
+Create an instrance of RedisWritableStream
 
 * RedisWritableStream.createInterface(options)
 
@@ -94,7 +94,7 @@ stream.pipe(tStream);
 ```
 
 ### RedisWritableStream.createInterface()
-Create an instrance of RedisWritableSteeam
+Create an instrance of RedisWritableStream
 
 * RedisWritableStream.createInterface(options)
 
