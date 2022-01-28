@@ -1,8 +1,7 @@
 
 'use strict';
 const {Writable} = require('stream');
-const uuidv1 = require('uuid/v1');
-
+const { v1: uuidv1 } = require('uuid');
 const redisClient = require('./redis-connection');
 
 module.exports = class RedisWritableStream extends Writable {
