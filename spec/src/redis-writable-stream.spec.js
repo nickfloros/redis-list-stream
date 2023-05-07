@@ -2,12 +2,12 @@ describe('redis-writable-stream', () => {
 	const RedisWritableStream = require('../../src/redis-writable-stream');
 
 	let redisClient = {
-		rpush: function() {}
+		rPush: function() {}
 	};
 	let mockPayload
 	beforeEach(() => {
 
-		spyOn(redisClient, 'rpush').and.callFake((listNane, payload, cb) => {
+		spyOn(redisClient, 'rPush').and.callFake((listNane, payload, cb) => {
 			cb();
 		});
 

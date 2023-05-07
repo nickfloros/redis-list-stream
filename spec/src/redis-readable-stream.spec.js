@@ -1,26 +1,31 @@
+const redis = require('redis');
+
 describe('redis-readable-stream', () => {
 	const RedisReadableStream = require('../../src/redis-readable-stream');
 
-	let redisClient={
-		brpop : function(){}
-	};
-	let mockPayload
+	let redisClient;
+	let mockPayload;
 	beforeEach(() => {
 
-//		redisClient = jasmine.createSpyObj('redisClient',['brpop']);
-		spyOn(redisClient, 'brpop').and.callFake((listNane,idx, cb) => {
-			cb(null,[0,mockPayload]);			
+		// mock redis commands 
+		spyOn(redis,'commandOptions').and.callFake(()=>{
+			return true;
 		});
+		redisClient = jasmine.createSpyObject('redisClient',['brPop']);
 
+		spyOn(redisClient,'brPop').and.callFake(()=>{
+			return Promise.resolve(mockPayload);
+		});
 	});
 
 	it('should read an entry where _id is preset', (done) => {
-		mockPayload = JSON.stringify({_id:1,data:JSON.stringify({id:1})});
+		mockPayload = {_id:1,message:JSON.stringify({id:1})};
+
 		const stream = new RedisReadableStream({
 			queueName: 'ns',
 			client: redisClient
 		});
-
+		
 		stream.on('data',(raw)=>{
 			const entry = JSON.parse(raw);
 			expect(entry).toBeTruthy();

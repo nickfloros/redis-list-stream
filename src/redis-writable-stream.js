@@ -2,7 +2,6 @@
 'use strict';
 const {Writable} = require('stream');
 const { v1: uuidv1 } = require('uuid');
-const redisClient = require('./redis-connection');
 
 module.exports = class RedisWritableStream extends Writable {
 	/**
@@ -14,22 +13,57 @@ module.exports = class RedisWritableStream extends Writable {
 	 */
 	constructor(params) {
 		super(params);
+
+		this._validate(params);
 		this._client = params.client;
-		this._queueName = params.queueName || redisClient.queueName;
+		this._queueName = params.queueName;
+
+		this._client.on('ready',()=>{
+			console.log('redis client connected and releasing stream ... ');
+			this.uncork();
+		});
+
+		this.on('finish',()=>{
+			console.log('end');
+		})
+
+		this.on('close',()=>{
+			console.log('close');
+		})
+		// block until redis client is ready ...
+		this.cork();
+	}
+
+	_validate(params) {
+
+		if (!params.queueName) {
+			throw new Error('RedisWritableStream : queue name is undefined');
+		}
+		if (!params.client) {
+			throw new Error('RedisWritableStream : redis client is undefined')
+		}
 	}
 
 	_write(chunk, encoding, callback) {
 		const data = JSON.parse(chunk.toString());
-
+		console.log(data);
+		// add _id if it does not exist ... 
 		if (!data._id) {
 			data._id = uuidv1();
 		}
 
-		this._client.rpush(this._queueName,JSON.stringify(data),()=>{
-			callback();
-		});
+		this._client.rPush(this._queueName,JSON.stringify(data))
+			.then(()=>{
+				callback();
+			});
 	}
 
+	_final(callback) {
+		this._client.quit()
+			.then( ()=>{
+				callback();
+			});
+	}
 	/**
 	 * getter
 	 * @return {string} name of list message are stored
@@ -50,14 +84,10 @@ module.exports = class RedisWritableStream extends Writable {
 	 * support method to create an instance of a RedisWritableStream
 	 * @param  {object} params
 	 * @param {string} params.queueName name of the queue to create
-	 * @params {object} params.redis parameters needed to create a redis connection.
+	 * @param {object} params.client redis client
 	 * @return {RedisWritableStream}        
 	 */
 	static createInterface(params) {
-		const client = redisClient.create(params);
-		return new RedisWritableStream({
-			queueName : params.queueName,
-			client: client
-		});
+		return new RedisWritableStream(params);
 	}
 }

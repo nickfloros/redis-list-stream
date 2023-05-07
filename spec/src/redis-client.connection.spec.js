@@ -7,6 +7,9 @@ describe('redis-client', () => {
 		spyOn(redis,'createClient').and.callFake(()=>{
 			return 'y';
 		});
+		spyOn(redis,'commandOptions').and.callFake(()=>{
+			return true;
+		});
 
 	});
 
