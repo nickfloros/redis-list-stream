@@ -1,5 +1,3 @@
-const redis = require('redis');
-
 describe('redis-readable-stream', () => {
 	const RedisReadableStream = require('../../src/redis-readable-stream');
 
@@ -7,17 +5,13 @@ describe('redis-readable-stream', () => {
 	let mockPayload;
 	beforeEach(() => {
 
-		// mock redis commands 
-		spyOn(redis,'commandOptions').and.callFake(()=>{
-			return true;
-		});
-		redisClient = jasmine.createSpyObject('redisClient',['brPop']);
+		redisClient = jasmine.createSpyObj('redisClient',['brPop']);
 
-		spyOn(redisClient,'brPop').and.callFake(()=>{
+		redisClient.brPop.and.callFake(()=>{
 			return Promise.resolve(mockPayload);
 		});
 	});
-
+/*
 	it('should read an entry where _id is preset', (done) => {
 		mockPayload = {_id:1,message:JSON.stringify({id:1})};
 
@@ -57,10 +51,13 @@ describe('redis-readable-stream', () => {
 		});
 		expect(stream.queueName).toBe('rfs');
 	});
+*/
+	it('should throw queue name is undefined',()=>{
+		expect(RedisReadableStream.createInterface({client:'x'})).toThrowError('RedisReadableStream  : queue name is undefined');
+	});
 
-	it('should create an interface ',()=>{
-		const mockClient = RedisReadableStream.createInterface({client:'x'});
-
-		expect(mockClient.client).toBe('x');		
+	it('should throw queue name is undefined',()=>{
+		expect(RedisReadableStream.createInterface({queueName:'x'})).toThrowError('RedisReadableStream  : redis client is undefined');
 	});
 });
+

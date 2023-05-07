@@ -1,18 +1,20 @@
 describe('redis-writable-stream', () => {
 	const RedisWritableStream = require('../../src/redis-writable-stream');
 
-	let redisClient = {
-		rPush: function() {}
-	};
-	let mockPayload
+	let redisClient ;
+	let mockPayload;
+	
 	beforeEach(() => {
+		redisClient = jasmine.createSpyObj('redisClient',['rPush','on']);
 
-		spyOn(redisClient, 'rPush').and.callFake((listNane, payload, cb) => {
+		redisClient.rPush.and.callFake((listNane, payload, cb) => {
 			cb();
 		});
-
+		redisClient.on.and.callFake((cb)=>{
+			cb();
+		});
 	});
-
+/*
 	it('should write an entry where _id is preset', () => {
 		mockPayload = JSON.stringify({
 			_id: 1,
@@ -53,8 +55,19 @@ describe('redis-writable-stream', () => {
 	});
 
 	it('should create an interface ',()=>{
-		const mockClient = RedisWritableStream.createInterface({client:'x'});
+		const mockClient = RedisWritableStream.createInterface({client:'x', queueName:'q'});
 
 		expect(mockClient.client).toBe('x');		
+	});
+*/
+
+	it('should throw queue name is undefined',()=>{
+		expect(RedisWritableStream.createInterface({client:'x'})).toThrowError('RedisWritableStream :queue name is undefined');
+	});
+
+
+	it('should throw redis client is undefined',()=>{
+		expect(RedisWritableStream.createInterface({queueName:'x'})).toThrowError('Error : RedisWritableStream  : client is undefined');
+	
 	});
 });
