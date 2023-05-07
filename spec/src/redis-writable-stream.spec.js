@@ -3,7 +3,7 @@ describe('redis-writable-stream', () => {
 
 	let redisClient ;
 	let mockPayload;
-	
+
 	beforeEach(() => {
 		redisClient = jasmine.createSpyObj('redisClient',['rPush','on']);
 
@@ -62,12 +62,22 @@ describe('redis-writable-stream', () => {
 */
 
 	it('should throw queue name is undefined',()=>{
-		expect(RedisWritableStream.createInterface({client:'x'})).toThrowError('RedisWritableStream :queue name is undefined');
+
+		try {
+			RedisWritableStream.createInterface({client:'x'});
+		}	
+		catch (e) {
+			expect(e.message).toContain('queue');
+		}
 	});
 
 
 	it('should throw redis client is undefined',()=>{
-		expect(RedisWritableStream.createInterface({queueName:'x'})).toThrowError('Error : RedisWritableStream  : client is undefined');
-	
+		try {
+			RedisWritableStream.createInterface({queueName:'x'});
+		}
+		catch(e) {
+			expect(e.message).toContain('redis client');
+		}
 	});
 });

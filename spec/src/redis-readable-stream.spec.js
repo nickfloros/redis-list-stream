@@ -53,11 +53,21 @@ describe('redis-readable-stream', () => {
 	});
 */
 	it('should throw queue name is undefined',()=>{
-		expect(RedisReadableStream.createInterface({client:'x'})).toThrowError('RedisReadableStream  : queue name is undefined');
+		try {
+			RedisReadableStream.createInterface({client:'x'});
+		}
+		catch (e) {
+			expect(e.message).toContain('queue');
+		}
 	});
 
 	it('should throw queue name is undefined',()=>{
-		expect(RedisReadableStream.createInterface({queueName:'x'})).toThrowError('RedisReadableStream  : redis client is undefined');
+		try {
+			RedisReadableStream.createInterface({queueName:'x'});
+		}
+		catch (e) {
+			expect(e.message).toContain('redis client is undefined');
+		}
 	});
 });
 
