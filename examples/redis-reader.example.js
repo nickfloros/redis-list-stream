@@ -8,9 +8,10 @@ const stream = new RedisReadableStream({
 });
 
 stream.on('data',(data)=>{
-	console.log(data.toString());
+	console.log('xx-'+data.toString());
 });
 
-redisClient.connect().then(()=>{
-	console.log('client connected');
-});
+
+ redisClient.connect().then(()=>{
+ 	console.log('client connected');
+ });

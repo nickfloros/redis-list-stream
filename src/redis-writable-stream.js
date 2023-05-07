@@ -19,17 +19,9 @@ module.exports = class RedisWritableStream extends Writable {
 		this._queueName = params.queueName;
 
 		this._client.on('ready',()=>{
-			console.log('redis client connected and releasing stream ... ');
 			this.uncork();
 		});
 
-		this.on('finish',()=>{
-			console.log('end');
-		})
-
-		this.on('close',()=>{
-			console.log('close');
-		})
 		// block until redis client is ready ...
 		this.cork();
 	}
@@ -46,7 +38,7 @@ module.exports = class RedisWritableStream extends Writable {
 
 	_write(chunk, encoding, callback) {
 		const data = JSON.parse(chunk.toString());
-		console.log(data);
+
 		// add _id if it does not exist ... 
 		if (!data._id) {
 			data._id = uuidv1();
@@ -54,6 +46,7 @@ module.exports = class RedisWritableStream extends Writable {
 
 		this._client.rPush(this._queueName,JSON.stringify(data))
 			.then(()=>{
+				console.log('pusing ... ');
 				callback();
 			});
 	}

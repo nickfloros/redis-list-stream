@@ -15,31 +15,20 @@ module.exports = class RedisReadableStream extends Readable {
 	 */
 	constructor(params) {
 		super(params);
-
+		this.counter=0;
 		this._validate(params);
 		this._queueName = params.queueName;
 		this._client = params.client;
 
 		// clien is ready ... 
 		this._client.on('ready',()=>{
-			const date = new Date();
-			console.log(`${date.toISOString()} : reader is paused : ${this.isPaused()}` );
 			this.resume();			
-			console.log(`${date.toISOString()} : reader resuming : ${this.isPaused()}` );
-
 		});
 
-		this._client.on('error',(err)=>{
-			const date = new Date();
-			console.log(`${date.toISOString()} : error `);
+		this._client.on('error',()=>{
 			this.pause();
 		});
 
-		this._client.on('reconnecting',()=>{
-			const date = new Date();
-			console.log(`${date.toISOString()} : trying to reconnect`);
-
-		})
 		this.pause(); // pause stream ... 
 	}
 
@@ -55,13 +44,15 @@ module.exports = class RedisReadableStream extends Readable {
 	}
 
 	_read(size) {
-		this._client.brPop(commandOptions({isolated:true}),this._queueName,0)
+		this._client.brPop(this._queueName,0)
 			.then((entry)=>{
+				this.counter++;
 				const data = JSON.parse(entry.element);
 				// add guid is not one is present ..
 				if (!data._id) {
 					data._id = uuidv1();
 				}
+				data.counter = this.counter;
 				this.push(JSON.stringify(data));
 			});
 	}

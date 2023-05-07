@@ -21,10 +21,6 @@ stream.write(JSON.stringify({
 }));
 
 redisClient.connect().then(()=>{
-	stream.write(JSON.stringify({
-		test: 1,
-		date: new Date()
-	}));
 	stream.end();
 	console.log('end send ... ');
 });
