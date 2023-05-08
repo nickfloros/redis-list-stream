@@ -1,9 +1,5 @@
 # redis-list-stream
-[![GitHub build](https://github.com/nickfloros/redis-list-stream/actions/workflows/build.js.yml/badge.svg?branch=master)](https://github.com/nickfloros/redis-list-stream/actions/workflows/build.js.yml)
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cf9630a2c0014fce8d5e63a0807d9738)](https://www.codacy.com/app/nickfloros/redis-list-stream?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nickfloros/redis-stream-list&amp;utm_campaign=Badge_Grade)
-
-
+[![GitHub build](https://github.com/nickfloros/redis-list-stream/actions/workflows/build.js.yml/badge.svg?branch=master)](https://github.com/nickfloros/redis-list-stream/actions/workflows/build.js.yml) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f56bb9a8ad374d15af01205d1196fac2)](https://app.codacy.com/gh/nickfloros/redis-list-stream/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Redis supports implementation of a message queue using FIFO lists 
 This is a trivial implementation of a such a message queue but with the addtion of a stream based interface. 
