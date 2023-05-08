@@ -1,6 +1,6 @@
 {
   "name": "redis-list-stream",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "a simple redis list stream",
   "main": "./index.js",
   "scripts": {
