@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "master","redis-v6" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
