@@ -1,19 +1,18 @@
+require('dotenv').config();
+const redisClient = require('./redis-client');
+const {RedisWritableStream} = require('../index');
 
-const config = require('dotenv').config({
-	path: __dirname + '/.env'
-});
-
-const {
-	RedisWritableStream
-} = require('../index');
-console.log(RedisWritableStream);
+// const config = require('dotenv').config({
+// 	path: __dirname + '/.env'
+// });
 
 const stream = RedisWritableStream.createInterface({
-	redis: {
-		host: process.env.REDIS_HOST,
-		port: process.env.REDIS_PORT
-	},
+	client : redisClient,
 	queueName: 'ns'
+});
+
+stream.on('close',()=>{
+	process.exit(0);
 });
 
 stream.write(JSON.stringify({
@@ -21,8 +20,8 @@ stream.write(JSON.stringify({
 	date: new Date()
 }));
 
-stream.end();
-
-stream.on('finish',()=>{
-	process.exit(0);
+redisClient.connect().then(()=>{
+	stream.end();
+	console.log('end send ... ');
 });
+
