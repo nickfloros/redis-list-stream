@@ -1,4 +1,3 @@
-const exp = require('constants');
 
 describe('redis-readable-stream', () => {
 	const RedisReadableStream = require('../../src/redis-readable-stream');

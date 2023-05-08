@@ -1,65 +1,67 @@
 describe('redis-writable-stream', () => {
 	const RedisWritableStream = require('../../src/redis-writable-stream');
+	const EventEmitter = require('events');
 
-	let redisClient ;
+	let testStream;
 	let mockPayload;
+	let mockRedisClient;
+	const queueName='ns';
 
 	beforeEach(() => {
-		redisClient = jasmine.createSpyObj('redisClient',['rPush','on']);
+		mockPayload = {bob:1};
 
-		redisClient.rPush.and.callFake((listNane, payload, cb) => {
-			cb();
-		});
-		redisClient.on.and.callFake((cb)=>{
-			cb();
-		});
-	});
-/*
-	it('should write an entry where _id is preset', () => {
-		mockPayload = JSON.stringify({
-			_id: 1,
-			data: JSON.stringify({
-				id: 1
-			})
-		});
-		const stream = new RedisWritableStream({
-			queueName: 'ns',
-			client: redisClient
+		mockRedisClient = new EventEmitter();
+		mockRedisClient.rPush = jasmine.createSpy().and.callFake(()=>{
+			mockRedisClient.emit('done');
+			return Promise.resolve();
 		});
 
-		stream.write(mockPayload);
-		expect(redisClient.rpush).toHaveBeenCalled();
-	});
-
-	it('should write an entry where _id is not present', () => {
-		mockPayload = JSON.stringify({
-			data: JSON.stringify({
-				id: 1
-			})
-		});
-		const stream = new RedisWritableStream({
-			queueName: 'ns',
-			client: redisClient
+		mockRedisClient.quit = jasmine.createSpy().and.callFake(()=>{
+			return Promise.resolve();
 		});
 
-		stream.write(mockPayload);
-		expect(redisClient.rpush).toHaveBeenCalled();
+		testStream = new RedisWritableStream({
+			queueName,
+			client : mockRedisClient
+		});
 
 	});
 
-	it('should create a new stream with default queue name',()=>{
-		const stream = new RedisWritableStream({
-			client: redisClient
+	it('should have a RedisWriteableStream in paused state',()=>{
+		expect(testStream).toBeTruthy();
+		expect(testStream.writableCorked).toBe(1);
+		expect(mockRedisClient.rPush).toBeDefined();
+		expect(mockRedisClient.quit).toBeDefined();
+
+		expect(testStream.queueName).toBe(queueName);
+		expect(testStream.client).toBe(mockRedisClient);
+	});
+
+	it('should be writable once ready is emit',()=>{
+		mockRedisClient.emit('ready');
+		expect(testStream.writableCorked).toBe(0); // this means that we are writebale 
+	});
+
+	it('should write to mockRedis client with _id precent',(done)=>{
+		mockPayload = {_id:1, bob:1};
+		mockRedisClient.emit('ready');
+		testStream.write(JSON.stringify(mockPayload));
+		testStream.end();
+		testStream.on('close',()=>{
+			expect(mockRedisClient.rPush).toHaveBeenCalled();
+			done();
 		});
-		expect(stream.queueName).toBe('rfs');
 	});
 
-	it('should create an interface ',()=>{
-		const mockClient = RedisWritableStream.createInterface({client:'x', queueName:'q'});
-
-		expect(mockClient.client).toBe('x');		
+	it('should write to mockRedis client with _id not precent',(done)=>{
+		mockRedisClient.emit('ready');
+		testStream.write(JSON.stringify(mockPayload));
+		testStream.end();
+		testStream.on('close',()=>{
+			expect(mockRedisClient.rPush).toHaveBeenCalled();
+			done();
+		});
 	});
-*/
 
 	it('should throw queue name is undefined',()=>{
 
