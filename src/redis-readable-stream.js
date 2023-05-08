@@ -3,7 +3,7 @@ const {
 	Readable
 } = require('stream');
 const {commandOptions} = require('redis');
-const { v1: uuidv1 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = class RedisReadableStream extends Readable {
 	/**
@@ -50,7 +50,7 @@ module.exports = class RedisReadableStream extends Readable {
 				const data = JSON.parse(entry.element);
 				// add guid is not one is present ..
 				if (!data._id) {
-					data._id = uuidv1();
+					data._id = uuidv4();
 				}
 				data.counter = this.counter;
 				this.push(JSON.stringify(data));
