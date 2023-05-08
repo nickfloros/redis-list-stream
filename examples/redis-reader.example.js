@@ -15,3 +15,5 @@ stream.on('data',(data)=>{
  redisClient.connect().then(()=>{
  	console.log('client connected');
  });
+
+ stream.bootstrap();
