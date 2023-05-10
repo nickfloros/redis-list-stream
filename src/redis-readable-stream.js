@@ -73,6 +73,9 @@ module.exports = class RedisReadableStream extends Readable {
 	 * @return {RedisReadbaleStream}   
 	 */
 	static createInterface(params) {
+		if (!params.client) {
+			// we need to add a redis client
+		}
 		return new RedisReadableStream(params);
 	}
 }
