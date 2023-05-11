@@ -10,7 +10,7 @@ Messages in Redis are persisted in a list. Messages are writen using ```rPush```
 
 For writes the assumption is that the application will trust REDIS to persist the message, in a fire and forget kind mode. 
 
-```javascript
+````javascript
 const {RedisWriteableStream, RedisConnection} = require('redis-list-stream');
 
 const client = RedisConnection.create({
@@ -53,7 +53,7 @@ Create an instrance of RedisWritableStream
 
 ````javascript 
 RedisWritableStream.createInterface(options)
-```
+````
 
 ### `options` object properties
 | Property  | Description |
@@ -67,7 +67,7 @@ In addition the current implementation does not offer any mechanism for alerting
 
 For reads the implentation is equally simple
 
-```javascript
+````javascript
 const {RedisReadableStream, RedisConection} = require('redis-list-stream');
 
 const client = RedisConnection.create({
@@ -95,11 +95,11 @@ client.connect()
 		console.log(err);
 		process.exit(1);
 	});
-```
+````
 
 The library will pop one message at a time from from the queue and generate the ```data``` event. Another way to is implement a ```Tansform``` stream responsible of implementing the actions a process has to do when receives an message . The example below does exactly the same as the previous example. 
 
-```javascript
+````javascript
 const {RedisReadableStream, RedisConnection} = require('redis-list-stream');
 const {Transform} = require('stream');
 
@@ -137,14 +137,14 @@ client.connect()
 		console.log(err);
 		process.exit(1);
 	});
-```
+````
 
 ### RedisWritableStream.createInterface()
 Create an instrance of RedisWritableStream
 
-```javascript
+````javascript
 RedisWritableStream.createInterface(options)
-```
+````
 
 ### `options` object properties
 | Property  | Description |
