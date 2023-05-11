@@ -51,7 +51,7 @@ client.connect()
 ### RedisWritableStream.createInterface()
 Create an instrance of RedisWritableStream
 
-* RedisWritableStream.createInterface(options)
+	* RedisWritableStream.createInterface(options)
 
 ### `options` object properties
 | Property  | Description |
@@ -139,7 +139,7 @@ client.connect()
 ### RedisWritableStream.createInterface()
 Create an instrance of RedisWritableStream
 
-* RedisWritableStream.createInterface(options)
+	* RedisWritableStream.createInterface(options)
 
 ### `options` object properties
 | Property  | Description |

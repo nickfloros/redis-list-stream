@@ -1,7 +1,7 @@
 
 'use strict';
 const {Writable} = require('stream');
-const { v1: uuidv1 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = class RedisWritableStream extends Writable {
 	/**
@@ -41,12 +41,11 @@ module.exports = class RedisWritableStream extends Writable {
 
 		// add _id if it does not exist ... 
 		if (!data._id) {
-			data._id = uuidv1();
+			data._id = uuidv4();
 		}
 
 		this._client.rPush(this._queueName,JSON.stringify(data))
 			.then(()=>{
-				console.log('pusing ... ');
 				callback();
 			});
 	}

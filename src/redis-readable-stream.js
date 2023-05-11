@@ -2,7 +2,6 @@
 const {
 	Readable
 } = require('stream');
-const {commandOptions} = require('redis');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = class RedisReadableStream extends Readable {
@@ -43,7 +42,7 @@ module.exports = class RedisReadableStream extends Readable {
 		}
 	}
 
-	_read(size) {
+	_read() {
 		this._client.brPop(this._queueName,0)
 			.then((entry)=>{
 				this.counter++;
