@@ -51,7 +51,9 @@ client.connect()
 ### RedisWritableStream.createInterface()
 Create an instrance of RedisWritableStream
 
-	* RedisWritableStream.createInterface(options)
+````javascript 
+RedisWritableStream.createInterface(options)
+```
 
 ### `options` object properties
 | Property  | Description |
@@ -64,6 +66,7 @@ At the moment the write implementation is rather inneficient as it does not 'bat
 In addition the current implementation does not offer any mechanism for alerting the calling program of success or failure of the underlying ```rPush```. Again this is somehting that will be addressed very soon.
 
 For reads the implentation is equally simple
+
 ```javascript
 const {RedisReadableStream, RedisConection} = require('redis-list-stream');
 
@@ -139,7 +142,9 @@ client.connect()
 ### RedisWritableStream.createInterface()
 Create an instrance of RedisWritableStream
 
-	* RedisWritableStream.createInterface(options)
+```javascript
+RedisWritableStream.createInterface(options)
+```
 
 ### `options` object properties
 | Property  | Description |
